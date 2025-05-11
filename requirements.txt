@@ -1,0 +1,9 @@
+google-generativeai
+numpy
+nest_asyncio
+uvicorn
+fastapi
+python-telegram-bot
+requests
+pydantic
+faiss-cpu
