@@ -1,9 +1,6 @@
-google-generativeai
-numpy
+google.genai
 nest_asyncio
 uvicorn
 fastapi
-python-telegram-bot
-requests
-pydantic
+python-telegram-bot==13.13
 faiss-cpu

@@ -1,0 +1,17 @@
+Q1: What is the capital of France?
+A1: The capital of France is Paris.
+
+Q2: What is the largest planet in our solar system?
+A2: The largest planet in our solar system is Jupiter.
+
+Q3: Who wrote "Romeo and Juliet"?
+A3: "Romeo and Juliet" was written by William Shakespeare.
+
+Q4: How do I make a cup of tea?
+A4: To make a cup of tea, boil water, add tea leaves or a tea bag, and steep for 3-5 minutes. Remove the tea bag or strain the leaves, and enjoy.
+
+Q5: What is the speed of light?
+A5: The speed of light in a vacuum is approximately 299,792,458 meters per second.
+
+Q6: What is machine learning?
+A6: Machine learning is a subset of artificial intelligence where machines are trained to learn from data, identify patterns, and make decisions without being explicitly programmed.

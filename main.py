@@ -1,4 +1,4 @@
-import google.generativeai as genai
+from google import genai
 from app.document_handler import DocumentHandler
 from app.telegram_bot import TelegramBot
 from app.api import start_api
