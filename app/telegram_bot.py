@@ -17,9 +17,9 @@ class TelegramBot:
             if response.status_code == 200:
                 try:
                     json_data = response.json()
-                    answer = json_data.get('answer', 'Sorry, I could not find an answer.')
+                    answer = json_data.get('answer', 'متاسفم. جوابی برای سوالت پیدا نکردم.')
                 except ValueError:
-                    answer = 'Sorry, received invalid response format.'
+                    answer = 'متاسفانه فرمت جواب پیداشده درست نیست.'
             else:
                 answer = f"Error: Received status code {response.status_code}"
         except requests.RequestException as e:
