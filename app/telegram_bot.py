@@ -8,7 +8,7 @@ class TelegramBot:
         self.fastapi_url = fastapi_url
 
     def start(self, update: Update, _: CallbackContext):
-        update.message.reply_text('Hello! Ask me anything.')
+        update.message.reply_text('سلام. سوالت رو بپرس ))')
 
     def ask_question(self, update: Update, _: CallbackContext):
         question = update.message.text
