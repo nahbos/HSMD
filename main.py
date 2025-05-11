@@ -2,10 +2,26 @@ from google import genai
 from app.document_handler import DocumentHandler
 from app.telegram_bot import TelegramBot
 from app.api import start_api
+from cryptography.fernet import Fernet
+import json
+import os
+
 
 def main():
-    api_key = 'AIzaSyBh1YfCrOzouS8DqrAwGx0t_vtQGdowOFA'
-    telegram_token = '7691048418:AAGy8gsDMODgeBaoaPbiMl8YSl14TJXgtQc'
+    # Load key and encrypted secrets
+    with open("secret.key", "rb") as kf:
+        key = kf.read()
+
+    with open("secrets.enc", "rb") as ef:
+        encrypted_data = ef.read()
+
+    # Decrypt
+    fernet = Fernet(key)
+    decrypted = fernet.decrypt(encrypted_data)
+    secrets = json.loads(decrypted.decode())
+
+    api_key = secrets["API_KEY"]
+    telegram_token = secrets["TELEGRAM_TOKEN"]
     data_folder = './data/'
 
     client = genai.Client(api_key=api_key)
