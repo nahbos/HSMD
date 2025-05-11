@@ -7,12 +7,7 @@ import threading
 
 from app.retrieval import RetrievalSystem
 from app.answer_generator import AnswerGenerator
-
-import sys
-import os
-
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../optimizations')))
-from semantic_cache import SemanticCache
+from optimizations.semantic_cache import SemanticCache
 
 nest_asyncio.apply()
 app = FastAPI()
