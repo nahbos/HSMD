@@ -7,7 +7,7 @@ import threading
 
 from app.retrieval import RetrievalSystem
 from app.answer_generator import AnswerGenerator
-from optimizations.semantic_cache import SemanticCache
+from app.semantic_cache import SemanticCache
 
 nest_asyncio.apply()
 app = FastAPI()
