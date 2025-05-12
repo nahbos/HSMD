@@ -14,6 +14,7 @@ app = FastAPI()
 
 retrieval_system = None
 answer_generator = None
+semantic_cache   = None
 
 class QuestionRequest(BaseModel):
     question: str
@@ -21,16 +22,15 @@ class QuestionRequest(BaseModel):
 @app.post("/ask")
 async def ask_question(req: QuestionRequest):
     query = req.question
-    query_embedding = document_handler.get_embeddings([query])[0]
-    cached_answer = semantic_cache.query(query_embedding)
+    cached_answer, embedding = semantic_cache.query(document_handler, query)
 
     if cached_answer:
         answer = cached_answer
         print('Answered by semantic cache.')
     else:
-        relevant_docs = retrieval_system.search(query, top_k=3)
+        relevant_docs = retrieval_system.search(embedding, top_k=3)
         answer = answer_generator.generate_answer(query, relevant_docs)
-        semantic_cache.store(query_embedding, answer)
+        semantic_cache.store(query, embedding, answer)
         print('Answered by Gemini.')
 
     return JSONResponse(content={"answer": answer})
