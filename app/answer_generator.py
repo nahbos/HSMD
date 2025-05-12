@@ -9,7 +9,7 @@ class AnswerGenerator:
         prompt += "\n\nProvide a detailed and helpful response in Farsi/Persian language. Keep it user-friendly and brief. Its very important to keep the response in Farsi, whatever it is."
 
         response = self.client.models.generate_content(
-            model="gemini-2.0-flash",
+            model="gemini-2.5-flash-preview-04-17",
             contents=prompt
         )
 
