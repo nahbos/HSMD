@@ -1,3 +1,4 @@
+from os import sync
 import faiss
 import numpy as np
 import pickle
@@ -14,11 +15,12 @@ class SemanticCache:
         self.save_thread = threading.Thread(target=self.periodically_save_cache, daemon=True)
         self.save_thread.start()
 
-    def query(self, document_handler, query):
+    async def query(self, document_handler, query):
         if query in self.queries:
             embedding = self.embeddings[self.queries.index(query)]
         else: 
-            embedding = np.array([document_handler.get_embeddings([query])[0]]).astype('float32')
+            embs = await document_handler.get_embeddings([query])
+            embedding = np.array([embs[0]]).astype('float32')
 
         scores, indices = self.index.search(embedding, 1)
         if scores[0][0] >= self.threshold:
@@ -29,7 +31,7 @@ class SemanticCache:
         
         return None, embedding
 
-    def store(self, query, embedding, response):
+    async def store(self, query, embedding, response):
         self.index.add(embedding)
         self.responses.append(response)
         self.queries.append(query)

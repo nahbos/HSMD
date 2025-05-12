@@ -2,7 +2,7 @@ class AnswerGenerator:
     def __init__(self, client):
         self.client = client
 
-    def generate_answer(self, query, relevant_documents):
+    async def generate_answer(self, query, relevant_documents):
         prompt = f"Question: {query}\n\nRelevant Documents:\n"
         for doc in relevant_documents:
             prompt += f"- {doc}\n"

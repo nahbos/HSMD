@@ -22,15 +22,15 @@ class QuestionRequest(BaseModel):
 @app.post("/ask")
 async def ask_question(req: QuestionRequest):
     query = req.question
-    cached_answer, embedding = semantic_cache.query(document_handler, query)
+    cached_answer, embedding = await semantic_cache.query(document_handler, query)
 
     if cached_answer:
         answer = cached_answer
         print('Answered by semantic cache.')
     else:
-        relevant_docs = retrieval_system.search(embedding, top_k=3)
-        answer = answer_generator.generate_answer(query, relevant_docs)
-        semantic_cache.store(query, embedding, answer)
+        relevant_docs = await retrieval_system.search(embedding, top_k=3)
+        answer = await answer_generator.generate_answer(query, relevant_docs)
+        await semantic_cache.store(query, embedding, answer)
         print('Answered by Gemini.')
 
     return JSONResponse(content={"answer": answer})

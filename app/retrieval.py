@@ -1,4 +1,5 @@
 import numpy as np
+import asyncio
 
 class RetrievalSystem:
     def __init__(self, document_handler):
@@ -8,6 +9,6 @@ class RetrievalSystem:
 
     async def search(self, embedding, top_k=3):
         query_embedding = np.array(embedding).astype('float32').reshape(1, -1)
-        distances, indices = await self.index.search(query_embedding, top_k)
+        distances, indices = await asyncio.to_thread(self.index.search, query_embedding, top_k)
         result_documents = [self.documents[i] for i in indices[0]]
         return result_documents

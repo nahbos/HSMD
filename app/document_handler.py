@@ -11,7 +11,7 @@ class DocumentHandler:
         self.embeddings = []
         self.index = None
 
-    def load_documents(self):
+    async def load_documents(self):
         txt_files = [f for f in os.listdir(self.data_folder) if f.endswith('.txt')]
         self.documents = []
         for file in txt_files:
@@ -42,4 +42,3 @@ class DocumentHandler:
 
     def get_faiss_index(self):
         return self.index
-
