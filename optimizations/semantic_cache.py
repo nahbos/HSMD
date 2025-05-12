@@ -34,7 +34,6 @@ class SemanticCache:
         self.responses.append(response)
         self.queries.append(query)
         self.embeddings.append(embedding)
-        self.save_cache()
 
     def load_cache(self):
         try:
