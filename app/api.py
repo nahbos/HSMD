@@ -15,17 +15,13 @@ app = FastAPI()
 retrieval_system = None
 answer_generator = None
 
-semantic_cache = SemanticCache(dimension=dim)
-
 class QuestionRequest(BaseModel):
     question: str
 
 @app.post("/ask")
 async def ask_question(req: QuestionRequest):
-    global dim
     query = req.question
     query_embedding = document_handler.get_embeddings([query])[0]
-    dim = len(query_embedding)
     cached_answer = semantic_cache.query(query_embedding)
 
     if cached_answer:
@@ -42,7 +38,8 @@ def run_app():
     uvicorn.run(app, host="0.0.0.0", port=8000)
 
 def start_api(doc_handler, client):
-    global retrieval_system, answer_generator, document_handler
+    global retrieval_system, answer_generator, document_handler, semantic_cache
+    semantic_cache = SemanticCache(dimension=3072)
     document_handler = doc_handler
     retrieval_system = RetrievalSystem(doc_handler)
     answer_generator = AnswerGenerator(client)
