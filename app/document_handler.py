@@ -1,6 +1,7 @@
 import os
 import numpy as np
 import faiss
+import asyncio
 
 class DocumentHandler:
     def __init__(self, client, data_folder="./data/"):
@@ -17,20 +18,18 @@ class DocumentHandler:
             with open(os.path.join(self.data_folder, file), 'r') as f:
                 self.documents.append(f.read())
 
-    def get_embeddings(self, texts):
-        response = self.client.models.embed_content(
-            model="gemini-embedding-exp-03-07",
-            contents=texts
-        )
+    async def get_embeddings(self, texts):
+        response = await asyncio.to_thread(self.client.models.embed_content, 
+                                            model="gemini-embedding-exp-03-07", 
+                                            contents=texts)
         return [embedding.values for embedding in response.embeddings]
-
-    def index_documents(self):
-        self.embeddings = self.get_embeddings(self.documents)
+    
+    async def index_documents(self):
+        self.embeddings = await self.get_embeddings(self.documents)
         embeddings_array = np.array(self.embeddings).astype('float32')
         
-        self.index = self.create_hnsw_index(dimension=embeddings_array.shape[1])        
         # self.index = faiss.IndexFlatL2(embeddings_array.shape[1])
-        
+        self.index = self.create_hnsw_index(dimension=embeddings_array.shape[1])        
         self.index.add(embeddings_array)
 
     def create_hnsw_index(self, dimension=768, ef_construction=40, M=32):
@@ -43,3 +42,4 @@ class DocumentHandler:
 
     def get_faiss_index(self):
         return self.index
+

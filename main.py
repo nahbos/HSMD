@@ -7,7 +7,7 @@ import json
 import os
 
 
-def main():
+async def main():
     # Load key and encrypted secrets
     with open("secret.key", "rb") as kf:
         key = kf.read()
@@ -27,8 +27,8 @@ def main():
     client = genai.Client(api_key=api_key)
 
     document_handler = DocumentHandler(client, data_folder)
-    document_handler.load_documents()
-    document_handler.index_documents()
+    await document_handler.load_documents()
+    await document_handler.index_documents()
 
     start_api(document_handler, client)
 
