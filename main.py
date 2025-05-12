@@ -3,6 +3,7 @@ from app.document_handler import DocumentHandler
 from app.telegram_bot import TelegramBot
 from app.api import start_api
 from cryptography.fernet import Fernet
+import asyncio
 import json
 import os
 
@@ -36,4 +37,4 @@ async def main():
     telegram_bot.run()
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())
