@@ -31,6 +31,7 @@ async def ask_question(req: QuestionRequest):
         relevant_docs = retrieval_system.search(query, top_k=3)
         answer = answer_generator.generate_answer(query, relevant_docs)
         semantic_cache.store(query_embedding, answer)
+        print('Answered by Gemini.')
 
     return JSONResponse(content={"answer": answer})
 

@@ -12,5 +12,6 @@ class AnswerGenerator:
             model="gemini-2.5-flash-preview-04-17",
             contents=prompt
         )
+        print('Gemini used.---------------------------------------')
 
         return response.text.strip()
