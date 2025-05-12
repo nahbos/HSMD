@@ -1,31 +1,13 @@
 import faiss
 import numpy as np
+import pickle
 
 class SemanticCache:
-    def __init__(self, dimension=3072, threshold=0.9):
+    def __init__(self, dimension=3072, threshold=0.9, cache_file='caches.pkl'):
         self.index = faiss.IndexFlatIP(dimension)
-        self.responses = []
-        self.queries = []
-        self.embeddings = []
         self.threshold = threshold
-
-    def get_embeddings(self, texts):
-        embeddings = []
-        for text in texts:
-            # Check if the embedding is already cached
-            if text in self.embedding_cache:
-                embeddings.append(self.embedding_cache[text])  # Use cached embedding
-            else:
-                # If not cached, make the API call to get the embedding
-                response = self.client.models.embed_content(
-                    model="gemini-embedding-exp-03-07",
-                    contents=[text]
-                )
-                embedding = response.embeddings[0].values
-                embeddings.append(embedding)
-                # Store the embedding in cache
-                self.embedding_cache[text] = embedding
-        return embeddings
+        self.cache_file = cache_file
+        self.queries, self.embeddings, self.responses = self.load_cache()
 
     def query(self, document_handler, query):
         if query in self.queries:
@@ -43,7 +25,19 @@ class SemanticCache:
         return None, embedding
 
     def store(self, query, embedding, response):
-        self.index.add(np.array([embedding]).astype('float32'))
+        self.index.add(embedding)
         self.responses.append(response)
         self.queries.append(query)
         self.embeddings.append(embedding)
+        self.save_cache()
+
+    def load_cache(self):
+        try:
+            with open(self.cache_file, 'rb') as f:
+                return pickle.load(f)
+        except FileNotFoundError:
+            return [], [] ,[]
+
+    def save_cache(self):
+        with open(self.cache_file, 'wb') as f:
+            pickle.dump((self.queries, self.embeddings, self.responses), f)
