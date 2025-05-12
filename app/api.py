@@ -14,7 +14,6 @@ app = FastAPI()
 
 retrieval_system = None
 answer_generator = None
-semantic_cache = SemanticCache(dimension=768)
 
 class QuestionRequest(BaseModel):
     question: str
@@ -23,6 +22,7 @@ class QuestionRequest(BaseModel):
 async def ask_question(req: QuestionRequest):
     query = req.question
     query_embedding = document_handler.get_embeddings([query])[0]
+    semantic_cache = SemanticCache(dimension=len(query_embedding))
     cached_answer = semantic_cache.query(query_embedding)
 
     if cached_answer:

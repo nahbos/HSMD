@@ -2,7 +2,7 @@ import faiss
 import numpy as np
 
 class SemanticCache:
-    def __init__(self, dimension=768, threshold=0.9):
+    def __init__(self, dimension=3072, threshold=0.9):
         self.index = faiss.IndexFlatIP(dimension)
         self.responses = []
         self.threshold = threshold
