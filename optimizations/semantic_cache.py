@@ -1,6 +1,8 @@
 import faiss
 import numpy as np
 import pickle
+import threading
+import time
 
 class SemanticCache:
     def __init__(self, dimension=3072, threshold=0.9, cache_file='caches.pkl'):
@@ -8,6 +10,9 @@ class SemanticCache:
         self.threshold = threshold
         self.cache_file = cache_file
         self.queries, self.embeddings, self.responses = self.load_cache()
+
+        self.save_thread = threading.Thread(target=self.periodically_save_cache, daemon=True)
+        self.save_thread.start()
 
     def query(self, document_handler, query):
         if query in self.queries:
@@ -41,3 +46,9 @@ class SemanticCache:
     def save_cache(self):
         with open(self.cache_file, 'wb') as f:
             pickle.dump((self.queries, self.embeddings, self.responses), f)
+
+    def periodically_save_cache(self):
+        while True:
+            time.sleep(2 * 60)  # Wait for 5 minutes (300 seconds)
+            self.save_cache()  # Save the cache every 5 minutes
+            print("Cache saved to disk.")
