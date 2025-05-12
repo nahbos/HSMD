@@ -10,7 +10,7 @@ class SemanticCache:
         self.threshold = threshold
         self.cache_file = cache_file
         self.queries, self.embeddings, self.responses = self.load_cache()
-
+        self.flag = 0
         self.save_thread = threading.Thread(target=self.periodically_save_cache, daemon=True)
         self.save_thread.start()
 
@@ -34,6 +34,7 @@ class SemanticCache:
         self.responses.append(response)
         self.queries.append(query)
         self.embeddings.append(embedding)
+        self.flag = 1
 
     def load_cache(self):
         try:
@@ -48,6 +49,8 @@ class SemanticCache:
 
     def periodically_save_cache(self):
         while True:
-            time.sleep(2 * 60)  # Wait for 5 minutes (300 seconds)
-            self.save_cache()  # Save the cache every 5 minutes
-            print("Cache saved to disk.")
+            if self.flag == 1:
+                time.sleep(2 * 60)  # Wait for 5 minutes (300 seconds)
+                self.save_cache()  # Save the cache every 5 minutes
+                self.flag = 0
+                print("Cache saved to disk.")
