@@ -27,9 +27,17 @@ class DocumentHandler:
     def index_documents(self):
         self.embeddings = self.get_embeddings(self.documents)
         embeddings_array = np.array(self.embeddings).astype('float32')
-        self.index = faiss.IndexFlatL2(embeddings_array.shape[1])
+        
+        self.index = self.create_hnsw_index(dimension=embeddings_array.shape[1])        
+        # self.index = faiss.IndexFlatL2(embeddings_array.shape[1])
+        
         self.index.add(embeddings_array)
 
+    def create_hnsw_index(self, dimension=768, ef_construction=40, M=32):
+        index = faiss.IndexHNSWFlat(dimension, M)
+        index.hnsw.efConstruction = ef_construction
+        return index
+    
     def get_document_embeddings(self):
         return self.embeddings
 
