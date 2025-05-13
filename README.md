@@ -24,7 +24,7 @@ The architecture of the system consists of the following main components:
 │ ├── api.py # FastAPI backend with /ask endpoint
 │ ├── answer_generator.py # Logic for generating answers using LLM
 │ ├── document_handler.py # Handles document loading and indexing
-│ ├── retrieval.py
+│ ├── retrieval.py # Vector-based document retrieval using FAISS (HNSW)
 │ ├── semantic_cache.py # Caching logic for pre-computed answers
 │ └── telegram_bot.py # Telegram bot integration
 │
