@@ -2,11 +2,11 @@
 
 This project implements a **Retrieval-Augmented Generation (RAG)**-based question-answering system accessible via a **Telegram bot**. The system ingests documents, retrieves relevant context based on user input, and generates responses using an LLM (Gemini).
 
-![RAG-Powered Question-Answering via Telegram Bot](/image/sample1.png "Demo1.")
+![RAG-Powered Question-Answering via Telegram Bot](/images/sample1.png "Demo1.")
 
-![RAG-Powered Question-Answering via Telegram Bot](/image/sample2.png "Demo1.")
+![RAG-Powered Question-Answering via Telegram Bot](/images/sample2.png "Demo1.")
 
-![RAG-Powered Question-Answering via Telegram Bot](/image/sample3.png "Demo1.")
+![RAG-Powered Question-Answering via Telegram Bot](/images/sample3.png "Demo1.")
 
 ## **Architecture Overview**
 
