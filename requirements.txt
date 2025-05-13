@@ -4,5 +4,3 @@ uvicorn
 fastapi
 python-telegram-bot==13.13
 faiss-cpu
-pytest
-httpx
